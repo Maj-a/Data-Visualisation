@@ -69,16 +69,16 @@ summary(GGPG_data)
 ![image](https://github.com/user-attachments/assets/2956a964-8885-45f4-8ed7-687e5d50a880)
 
 ### 2.	BasePay & Bonus by Department, Job Role, Seniority:
-### 2.1 By Department: We'll visualize BasePay and Bonus across departments,
-###     utilizing a color palette from R’s Color Brewer.
+### 2.1 By Department: We'll visualize BasePay and Bonus across departments,utilizing a color palette from R’s Color Brewer.
 
-######checking all colour pallets in the package
+###### Checking all colour pallets in the package
 ```r
 dev.off() 
 display.brewer.all(colorblindFriendly = TRUE)
 ```
 ![image](https://github.com/user-attachments/assets/7e14519b-ff6f-4d51-a835-3a527a29c320)
 
+#### BasePay by Department
 ```r
 ggplot(GGPG_data, aes(Dept, BasePay, fill = Dept))+
   geom_col()+
@@ -88,6 +88,7 @@ ggplot(GGPG_data, aes(Dept, BasePay, fill = Dept))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 ![image](https://github.com/user-attachments/assets/5e10c422-f269-4506-b968-2ee5c3935ef2)
+#### Bonus by Department
 ```r
 ggplot(GGPG_data, aes(Dept, Bonus, fill = Dept))+
   geom_col()+
@@ -123,6 +124,7 @@ ggplot(GGPG_data, aes(JobTitle, BasePay, fill = JobTitle))+
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+![image](https://github.com/user-attachments/assets/b07f5d75-aea7-4b90-bb60-647ce4393065)
 
 
 ```r
@@ -133,17 +135,18 @@ ggplot(GGPG_data, aes(JobTitle, Bonus, fill = JobTitle))+
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+![image](https://github.com/user-attachments/assets/72fd5e41-13bd-4d1e-9876-96f4f0eb9a5a)
+
 ### 3.	Mean BasePay Visualization:
 ### 3.1	Bar Chart by Department: Calculate the mean BasePay for each department and visualize it with a bar chart, using a palette from R's Color Brewer.
-### Calculate mean Base Pay per Department
+#### Calculate mean Base Pay per Department
 ```r
 mean_BasePay_per_Dept<-GGPG_data%>%
   group_by(Dept)%>%
   summarise(BasePay_avg=mean(BasePay))
 mean_BasePay_per_Dept
 ```
-```
-###### Plot bar chart of mean Base Pay per Department
+#### Plot bar chart of mean Base Pay per Department
 ```r
 ggplot(mean_BasePay_per_Dept, aes(x = Dept, y = BasePay_avg, fill = Dept)) +
   geom_bar(stat = "identity") +
@@ -152,15 +155,17 @@ ggplot(mean_BasePay_per_Dept, aes(x = Dept, y = BasePay_avg, fill = Dept)) +
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+![image](https://github.com/user-attachments/assets/972f19f3-73ce-4ffa-899d-edae3936d78b)
+
 ### 3.2 BasePay & Bonus by Department: Visualize the average BasePay and Bonus across departments.
-##### Calculate mean Bonus per Department
+##### Calculate mean of Base Pay & Bonus per Department
 ```r
 mean_Bonus_per_Dept<-GGPG_data%>%
   group_by(Dept)%>%
   summarise(Bonus_avg=mean(Bonus))
 mean_Bonus_per_Dept
 ```
-###### Combine the mean base pay and mean bonus datasets into one, pivoting longer
+##### Combine the mean base pay and mean bonus datasets into one, pivoting longer
 ```r
 combined_data <- mean_BasePay_per_Dept %>%
   inner_join(mean_Bonus_per_Dept, by = "Dept") %>%
@@ -169,7 +174,7 @@ combined_data <- mean_BasePay_per_Dept %>%
                values_to = "Average")
 head(combined_data)
 ```
-##### Base Pay and Bonus by Department
+##### Average Base Pay and Bonus by Department
 ```r
 ggplot(combined_data, aes(x = Dept, y = Average, fill = Pay_Type)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -178,6 +183,8 @@ ggplot(combined_data, aes(x = Dept, y = Average, fill = Pay_Type)) +
        title = "Average Base Pay and Bonus by Department") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/8433898d-0d54-4de4-8868-8232afb88c71)
+
 ### 3.3	BasePay & Bonus by Job Role: Similarly, visualize the average BasePay and Bonus by job roles.
 #### Mean of Base Pay & Bonus by Job Role
 ```r
@@ -201,6 +208,8 @@ ggplot(mean_JobRole_long, aes(x = JobTitle, y = Average2, fill = Pay_Type2 ))+
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
   ```
+![image](https://github.com/user-attachments/assets/ba2724b9-168d-439d-a259-facd6f5b903c)
+
 ### 4.	Gender-Based Pay Visualizations:
 #### 4.1	BasePay by Gender: Use boxplots to compare the distributions of BasePay across genders.
 ```r
@@ -212,6 +221,8 @@ ggplot(GGPG_data, aes(x = Gender, y = BasePay, fill = Gender)) +
        y = "Base Pay") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/fb0544a7-fc14-4ca1-94d3-d00874b981e1)
+
 #### 4.2	Bonus by Gender: Visualize the distribution of Bonus amounts across genders using boxplots.
 ```r
 ggplot(GGPG_data, aes(x = Gender, y = Bonus, fill = Gender)) +
@@ -222,6 +233,8 @@ ggplot(GGPG_data, aes(x = Gender, y = Bonus, fill = Gender)) +
        y = "Bonus") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/8f26d1d6-0a7b-4772-bac6-19eb42ef4f9a)
+
 #### 4.3	Scatter Plot: Explore the relationship between BasePay and Bonus, with points colored by gender.
 ```r
 ggplot(GGPG_data, aes(x = BasePay, y = Bonus, color = Gender)) +
@@ -232,6 +245,8 @@ ggplot(GGPG_data, aes(x = BasePay, y = Bonus, color = Gender)) +
        y = "Bonus") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/7533053e-5d76-4c02-a815-559de859a1b1)
+
 #### 4.4	Facet Grid: View separate scatter plots for each gender, offering a clear comparison.
 ```r
 ggplot(GGPG_data, aes(x = BasePay, y = Bonus)) +
@@ -242,10 +257,13 @@ ggplot(GGPG_data, aes(x = BasePay, y = Bonus)) +
        y = "Bonus") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/23275615-118d-43e4-b2d2-22790944a33c)
+
 #### 4.5 Violin Plot: Combine the distributions of BasePay and Bonus into a single plot, visualizing differences by gender.
-library(reshape2)
+
 ##### Melting the data to combine BasePay and Bonus into one variable
 ```r
+library(reshape2)
 melted_data <- melt(GGPG_data, id.vars = "Gender", measure.vars = c("BasePay", "Bonus"))
 ```
 ##### Violin plot for BasePay and Bonus by Gender
@@ -259,6 +277,8 @@ ggplot(melted_data, aes(x = Gender, y = value, fill = Gender)) +
        y = "Value") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/9125a149-8b69-4b22-a2ce-24b8f9c321c9)
+
 #### 4.6	Bar Plot: Compare the average BasePay and Bonus between genders using a bar plot.
 ```r
 mean_pay_bonus <- GGPG_data %>%
@@ -281,6 +301,8 @@ ggplot(mean_pay_bonus_melted, aes(x = Gender, y = value, fill = variable)) +
        fill = "Variable") +
   theme_minimal()
 ```
+![image](https://github.com/user-attachments/assets/48bb3ff3-ddbf-4e3b-bdd0-974ec37047ce)
+
 ### 5.	Heat Map Visualizations:
 #### 5.1	By Job Title and Department: Create a heat map showing the average BasePay by Job Title and Department.
 ```r
@@ -298,9 +320,11 @@ ggplot(avgBasePay_Dept_JobTitle, aes(x = Dept, y = JobTitle, fill = avg_BasePay)
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-### --> This heat map would show the distribution of average BasePay or Bonus across different 
-## job titles within each department. It could help you identify which departments have higher
-## or lower pay for specific job titles.
+![image](https://github.com/user-attachments/assets/7b71462a-cdec-437a-9750-1c595a375e64)
+
+##### --> This heat map would show the distribution of average BasePay or Bonus across different 
+##### job titles within each department. It could help you identify which departments have higher
+##### or lower pay for specific job titles.
 
 #### 5.2	Count of Job Titles by Department: Visualize the count of job titles across departments using a heat map.
 ```r
@@ -317,6 +341,8 @@ ggplot(JobTitle_count, aes(x = JobTitle, y = Dept, fill = JT_count)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  
 ```
+![image](https://github.com/user-attachments/assets/e7d61a3f-ecec-41df-bba6-563e3d363699)
+
 ##### 5.3	BasePay by Job Title and Gender: Explore the relationship between BasePay, job titles, and gender with a heat map.
 ```r
 ggplot(GGPG_data, aes(x = JobTitle, y = Gender, fill = BasePay)) +
@@ -326,12 +352,16 @@ ggplot(GGPG_data, aes(x = JobTitle, y = Gender, fill = BasePay)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  
 ```
+![image](https://github.com/user-attachments/assets/f098bbe1-959a-4ed0-9004-1017176972dc)
+
 ### 6.	Age Distribution:
 #### 6.1	Histogram: Obtain a histogram to visualize the distribution of employees' ages.
 ```rggplot(GGPG_data, aes(x = Age)) +
   geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
   labs(title = "Distribution of Employee Ages", x = "Age", y = "Count")
 ```
+![image](https://github.com/user-attachments/assets/83447bb7-9cbc-44e6-bb54-e570c2c48264)
+
 ### 7.	Gender Distribution:
 #### 7.1	Bar Chart: Display the count of each gender within the dataset.
 ```r
@@ -339,6 +369,8 @@ ggplot(GGPG_data, aes(x = Gender)) +
   geom_bar(fill = "lightgreen", color = "black") +
   labs(title = "Gender Distribution", x = "Gender", y = "Count")
 ```
+![image](https://github.com/user-attachments/assets/ed84ab9c-08f5-42c0-8f12-73316e12396a)
+
 ### 8.	Education Level Distribution:
 #### 8.1	Bar Chart: Visualize the count of employees at different education levels using a bar chart.
 ```r
@@ -346,6 +378,7 @@ ggplot(GGPG_data, aes(x = Education)) +
   geom_bar(fill = "purple4", color = "black") +
   labs(title = "Distribution of Education Levels", x = "Education Level", y = "Count")
 ```
+![image](https://github.com/user-attachments/assets/e78aa9ad-eb5c-48cf-9433-effc51c56c47)
 
 
                                                                                                                                                                                         
